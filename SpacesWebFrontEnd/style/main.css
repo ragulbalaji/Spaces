@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #000;
+    font-family: 'Electrolize', Ubuntu;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.hotbar {
+    position: absolute;
+    height: 20vh;
+    width: 100vw;
+    bottom: 0;
+    background-color: rgba(139, 139, 139, 1);
+}
+
+#focus {
+    position: absolute;
+    display: none;
+    text-align: center;
+    text-shadow: 2px 2px #F5146E;
+    width: 100vw;
+    height: 20vh;
+    top: 40vh;
+    left: 1vh;
+}
+
+.label {
+    z-index: 2;
+    position: absolute;
+    display: block;
+    text-align: center;
+    font-size: 2vw;
+    color: white;
+    text-shadow: 1px 1px #F5146E;
+}
+
+#console {
+    resize: none;
+    border: 0;
+    pointer-events: none;
+    font-family: 'Electrolize', Ubuntu;
+    font-size: 1.5vw;
+    height: 15vh;
+    width: 100vw;
+    background-color: transparent;
+    margin: 0;
+    z-index: 1;
+    position: absolute;
+    display: block;
+    bottom: 0;
+    color: #FFF;
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+}
+
+#console:hover {
+    color: #00F;
+}
+
+.gameCanvas {}
