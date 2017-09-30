@@ -4,7 +4,7 @@ const SpacesWorld = require("./gameshare/world.js")
 
 var line = "";
 
-for(var i=0;i<SpacesWorld.array.length;i++)
+for(var i = 0;i < SpacesWorld.array.length;i++)
 {
     if(i % SpacesWorld.size[0] == 0)
     {

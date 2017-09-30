@@ -3,31 +3,34 @@ from PIL import Image
 filename = "world.png"
 
 blockID = {
-	"000000": "", # Null
-	"ffffff": 1, # Wall
-	"ff0000": 2, # Start Point
-	"2c0058": 3, # Generic Floor
-	"0000ff": 4, # Generic Button
-	"ffff00": 5, # Generic Sensor
+    "000000": "",  # Null
+    "ffffff": 1,  # Wall
+    "ff0000": 2,  # Start Point
+    "2c0058": 3,  # Generic Floor
+    "0000ff": 4,  # Generic Button
+    "ffff00": 5,  # Generic Sensor
 }
 
 img = Image.open(filename)
 pix = img.load()
 
+
 def rgba2hex(rgba_color):
-	red = int(rgba_color[0])
-	green = int(rgba_color[1])
-	blue = int(rgba_color[2])
-	return '{r:02x}{g:02x}{b:02x}'.format(r = red, g = green, b = blue)
+    red = int(rgba_color[0])
+    green = int(rgba_color[1])
+    blue = int(rgba_color[2])
+    return '{r:02x}{g:02x}{b:02x}'.format(r=red, g=green, b=blue)
+
 
 outputBuffer = ""
 
 w, h = img.size
 longline = ""
 for y in range(h):
-	for x in range(w):
-		longline += str(blockID[rgba2hex(pix[x, y])])
-		#if x < w-1:
-		longline += ","
+    for x in range(w):
+        longline += str(blockID[rgba2hex(pix[x, y])])
+        #if x < w-1:
+        longline += ","
 
-print("const SpacesWorld = {\nsize:[" + str(w) + "," + str(h) + "],\narray:[" + longline + "]\n}\n//module.exports = SpacesWorld // For NODEJS")
+print("const SpacesWorld = {\nsize:[" + str(w) + "," + str(h) + "],\narray:[" +
+      longline + "]\n}\n//module.exports = SpacesWorld // For NODEJS")
