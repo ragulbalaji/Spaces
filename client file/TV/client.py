@@ -1,3 +1,15 @@
+# This file is run by the RasPi of the IoT to allow it to communicate with the
+# main server through MQTT and with the actual device through an Arduino
+#
+#Communicating with the TV:
+#   topic - "TV"
+#
+#   There are 2 possible actions with the TV
+#   To turn on the TV:
+#       payload - "on_tv"
+#   To turn off the TV:
+#       payload - "off_tv"
+
 import paho.mqtt.client as mqtt
 import sys
 import serial

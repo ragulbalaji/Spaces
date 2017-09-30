@@ -1,3 +1,12 @@
+# This file is run by the RasPi of the IoT to allow it to communicate with the
+# main server through MQTT and with the actual device through an Arduino
+#
+#To communicate with the sensor:
+#   Topic - "sensor", payload - "read_data"
+#
+#Output from sensor:
+#   b'20 *C 71%'
+#
 import paho.mqtt.client as mqtt
 import sys
 import serial
@@ -23,7 +32,7 @@ def on_message(client, userdata, msg):
     print("Received")
     topic = str(msg.topic)
     payload = str(msg.payload)
-    if topic == "sensor" and payload == b'read_data':
+    if topic == "sensor" and payload == b'read_data': #Code only executes if the payload and topic are valid
         ser.write(payload)
         time.sleep(0.5) #blind synchronisation of 0.5s
         data = ser.readline()
@@ -40,6 +49,6 @@ client.on_message = on_message
 
 client.connect(ADDR_TO_CONN, port=PORT_TO_CONN) #client connects
 
-client.subscribe("sensor") #subscribe to topic "led"
+client.subscribe("sensor") #subscribe to topic "sensor"
 
 client.loop_forever()

@@ -1,3 +1,9 @@
+// This file assumes that the arduino is serially connected to the RasPi.
+//Connecting the SSD1306 with Arduino Uno
+//  SCL - pin A5
+//  SDA - pin A4
+//  Vcc - 5V
+//  Gnd - Gnd
 #include "U8glib.h"
 
 U8GLIB_SH1106_128X64 u8g(U8G_I2C_OPT_NONE);  // I2C
@@ -103,7 +109,7 @@ void u8g_extra_page(uint8_t a)
   {
     u8g.drawStr( 66, 0, "Gray Level");
     u8g.setColorIndex(1);
-    u8g.drawBox(0, 4, 64, 32);    
+    u8g.drawBox(0, 4, 64, 32);
     u8g.drawBox(70, 20, 4, 12);
     u8g.setColorIndex(2);
     u8g.drawBox(0+1*a, 4+1*a, 64-2*a, 32-2*a);
@@ -147,26 +153,26 @@ void setup(){
   Serial.begin(9600);
   // flip screen, if required
   //u8g.setRot180();
-  
+
   #if defined(ARDUINO)
-  pinMode(13, OUTPUT);           
-  digitalWrite(13, HIGH);  
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
   #endif
 }
 
 void loop()
-{ 
+{
   if(Serial.available() && (string = Serial.readString()) == "on_tv"){
     while(!Serial.available() || (string = Serial.readString()) != "off_tv"){
-      u8g.firstPage();  
+      u8g.firstPage();
       do {
         draw();
       } while( u8g.nextPage() );
       // increase the state
       draw_state++;
       if ( draw_state >= 9*8 )
-        draw_state = 0;   
-    }  
+        draw_state = 0;
+    }
   }
   else if (string == "off_tv"){
     u8g.firstPage();
