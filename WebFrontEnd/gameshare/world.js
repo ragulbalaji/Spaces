@@ -11,11 +11,7 @@ function loadWorld() {
     for (z = 0; z < SpacesWorld.size[1]; z++) {
         for (x = 0; x < SpacesWorld.size[0]; x++) {
             objectID = SpacesWorld.array[x + (z * SpacesWorld.size[1])];
-            if (objectID !== undefined){
-				makeBlock(objectID, x, z);
-			}else{
-				makeBlock(3, x, z);
-			}
+            if (objectID !== undefined) makeBlock(objectID, x, z);
         }
     }
 }
