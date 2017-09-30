@@ -21,11 +21,11 @@ def rgba2hex(rgba_color):
 	return '{r:02x}{g:02x}{b:02x}'.format(r = red, g = green, b = blue)
 
 w, h = img.size
-print(str(w) + "," + str(h))
+longline = ""
 for y in range(h):
-	line = ""
 	for x in range(w):
-		line += str(blockID[rgba2hex(pix[x, y])])
+		longline += str(blockID[rgba2hex(pix[x, y])])
 		if x < w-1:
-			line += ","
-	print(line)
+			longline += ","
+
+print("var SpaceWorld = {\nsize:[" + str(w) + "," + str(h) + "],\narray:[" + longline + "]\n}")
