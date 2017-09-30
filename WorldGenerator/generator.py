@@ -3,10 +3,12 @@ from PIL import Image
 filename = "world.png"
 
 blockID = {
-	"000000": 0,
-	"ffffff": 1,
-	"ff0000": 2,
-	"00ff00": 3,
+	"000000": "", # Null
+	"ffffff": 1, # Wall
+	"ff0000": 2, # Start Point
+	"2c0058": 3, # Generic Floor
+	"0000ff": 4, # Generic Button
+	"ffff00": 5, # Generic Sensor
 }
 
 img = Image.open(filename)
