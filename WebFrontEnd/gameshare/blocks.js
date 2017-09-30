@@ -119,7 +119,7 @@ function BasicCeiling(px, pz) {
     }
     this.needsUpdate = false;
     this.obj.collidable = true;
-    this.rayEnabled = true;
+    this.rayEnabled = false;
     this.update = function () {}
 }
 

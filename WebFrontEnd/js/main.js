@@ -4,7 +4,7 @@ var universe = {
     gravity: 9.8,
     gravityEnabled: false
 };
-var RENDER_DISTANCE = 10;
+var RENDER_DISTANCE = 15;
 var renderer = Detector.webgl ? new THREE.WebGLRenderer({
     alpha: true
 }) : new THREE.CanvasRenderer();
