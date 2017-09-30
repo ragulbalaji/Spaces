@@ -8,21 +8,27 @@
 */
 
 function makeBlock(id, px, pz) {
-    //log(id)
     switch (id) {
-        case 1: // Wall
-            addGameObject(new BasicBlock(px, pz));
+        case 1: //Wall
+            addGameObject(new BasicBlock(px, pz))
             break;
         case 3: // Generic Floor
-            addGameObject(new BasicFloor(px, pz));
-            addGameObject(new BasicCeiling(px, pz));
+            addFnC(px, pz)
+            break;
+        case 4: // Generic Button
+            addGameObject(new BasicButton(px, pz))
+            addGameObject(new BasicCeiling(px, pz))
             break;
     }
 }
 
+function addFnC(px, pz){
+    addGameObject(new BasicFloor(px, pz))
+    addGameObject(new BasicCeiling(px, pz))
+}
+
 function makeSpawn(px, pz) {
     _C.position.set(px, player.y, pz);
-    log(px + " " + pz)
 }
 
 function killGameObject(it) {
@@ -66,8 +72,7 @@ function SlopeFloor(px, pz) {
 function BasicFloor(px, pz) {
     //var x = Math.round(Math.abs((128 * Math.sin(px / 10) + 128 * Math.cos(pz / 10))));
     this.obj = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({
-        color: '#4CAF50',
-        side: THREE.DoubleSide
+        color: '#4CAF50'
     }));
     this.obj.position.set(px, -0.5, pz);
     this.obj.rotation.x = -Math.PI / 2;
@@ -97,11 +102,10 @@ function BasicFloor(px, pz) {
 function BasicCeiling(px, pz) {
     //var x = Math.round(Math.abs((128 * Math.sin(px / 10) + 128 * Math.cos(pz / 10))));
     this.obj = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({
-        color: '#607D8B',
-        side: THREE.DoubleSide
+        color: '#607D8B'
     }));
     this.obj.position.set(px, 0.5, pz);
-    this.obj.rotation.x = -Math.PI / 2;
+    this.obj.rotation.x = 0.5 * Math.PI;
     _S.add(this.obj);
     this.obj.rotation.order = "YXZ";
     this.obj.selected = function () {
@@ -149,6 +153,30 @@ function BasicBlock(px, pz) {
         /*if(Math.sqrt(Math.pow((this.obj.position.x-_C.position.x),2)+Math.pow((this.obj.position.z-_C.position.z),2))<1){
         	killGameObject(this);
         }//*/
+    }
+}
+
+function BasicButton(px, pz) {
+    this.obj = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({
+        color: '#ffa500'
+    }));
+    this.obj.position.set(px, -0.5, pz);
+    this.obj.rotation.x = -Math.PI / 2;
+    _S.add(this.obj);
+    this.obj.rotation.order = "YXZ";
+    this.obj.resetColorTime = Number.MAX_SAFE_INTEGER
+    this.obj.selected = function () {
+        this.material.color = new THREE.Color( 0xff0000 )
+        this.resetColorTime = Date.now() + 1000
+    }
+    this.needsUpdate = true;
+    this.rayEnabled = true;
+    this.obj.collidable = true;
+    this.update = function () {
+        if(this.obj.resetColorTime < Date.now()){
+            this.obj.material.color = new THREE.Color( 0xffa500 )
+            this.obj.resetColorTime = Number.MAX_SAFE_INTEGER
+        }
     }
 }
 

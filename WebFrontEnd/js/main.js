@@ -73,7 +73,7 @@ function start() {
 
     //generateDungeon(1998, 0, 0);
 
-    loadWorld("BasicLevel");
+    loadWorld();
 
     universe.gravityEnabled = true;
 
