@@ -27,7 +27,7 @@ longline = ""
 for y in range(h):
 	for x in range(w):
 		longline += str(blockID[rgba2hex(pix[x, y])])
-		if x < w-1:
-			longline += ","
+		#if x < w-1:
+		longline += ","
 
 print("const SpacesWorld = {\nsize:[" + str(w) + "," + str(h) + "],\narray:[" + longline + "]\n}\n//module.exports = SpacesWorld // For NODEJS")
