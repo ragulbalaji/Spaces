@@ -1,11 +1,3 @@
-# This code is to be run on the RasPi 3.
-# It uses MQTT to toggle an LED connected to GPIO 18.
-#
-# Topic: "led"
-# Message payload:
-#   1. "off" - off the LED
-#   2. "on" - on the LED
-
 import paho.mqtt.client as mqtt
 import sys
 import serial
@@ -29,14 +21,14 @@ def on_connect(client, userdata, flags, rc):
 # The RasPi forwards messages from the publisher to the Arduino
 def on_message(client, userdata, msg):
     print("Received")
-    topic = msg.topic #Format of payload: e.g TV_2_ON
-    payload = msg.payload
-    if topic == "sensor":
+    topic = str(msg.topic)
+    payload = str(msg.payload)
+    if topic == "sensor" and payload == b'read_data':
         ser.write(payload)
         time.sleep(0.5) #blind synchronisation of 0.5s
         data = ser.readline()
         print(data)
-        client.publish("sensor", payload=data, qos=0, retain=False)
+        client.publish("sensor_data", payload=data, qos=0, retain=False)
 
 
 ser = serial.Serial(ADDR_OF_ARDUINO, BAUD_RATE)

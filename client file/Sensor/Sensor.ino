@@ -13,13 +13,14 @@ void setup() {
 }
 
 void loop() {
-  if(Serial.available() && (string = Serial.readString()) == "read_data"){
+  if(Serial.available()){
+    Serial.readString();
     // read with raw sample data.
     byte temperature = 0;
     byte humidity = 0;
     byte data[40] = {0};
     if (dht11.read(pinDHT11, &temperature, &humidity, data)) {
-      return;
+      ;
     }
     Serial.print((int)temperature); Serial.print(" *C, ");
     Serial.print((int)humidity); Serial.println(" %");

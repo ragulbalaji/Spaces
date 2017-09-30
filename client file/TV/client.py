@@ -1,11 +1,3 @@
-# This code is to be run on the RasPi 3.
-# It uses MQTT to toggle an LED connected to GPIO 18.
-#
-# Topic: "led"
-# Message payload:
-#   1. "off" - off the LED
-#   2. "on" - on the LED
-
 import paho.mqtt.client as mqtt
 import sys
 import serial
