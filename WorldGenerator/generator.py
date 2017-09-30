@@ -20,6 +20,8 @@ def rgba2hex(rgba_color):
 	blue = int(rgba_color[2])
 	return '{r:02x}{g:02x}{b:02x}'.format(r = red, g = green, b = blue)
 
+outputBuffer = ""
+
 w, h = img.size
 longline = ""
 for y in range(h):
