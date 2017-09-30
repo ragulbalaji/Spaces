@@ -23,5 +23,7 @@ print(str(w) + "," + str(h))
 for y in range(h):
 	line = ""
 	for x in range(w):
-		line += str(blockID[rgba2hex(pix[x, y])]) + ","
+		line += str(blockID[rgba2hex(pix[x, y])])
+		if x < w-1:
+			line += ","
 	print(line)
