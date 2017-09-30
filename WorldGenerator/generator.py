@@ -30,4 +30,4 @@ for y in range(h):
 		if x < w-1:
 			longline += ","
 
-print("var SpaceWorld = {\nsize:[" + str(w) + "," + str(h) + "],\narray:[" + longline + "]\n}")
+print("const SpacesWorld = {\nsize:[" + str(w) + "," + str(h) + "],\narray:[" + longline + "]\n}\n//module.exports = SpacesWorld // For NODEJS")
