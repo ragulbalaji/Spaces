@@ -26,8 +26,11 @@ w, h = img.size
 longline = ""
 for y in range(h):
 	for x in range(w):
-		longline += str(blockID[rgba2hex(pix[x, y])])
-		if x < w-1:
-			longline += ","
+		val = blockID[rgba2hex(pix[x, y])]
+		if(val == 2):
+			spawn = (x,y)
+			val = 3 # HARDCODE FLOOR
+		longline += str(val)
+		longline += ","
 
-print("const SpacesWorld = {\nsize:[" + str(w) + "," + str(h) + "],\narray:[" + longline + "]\n}\n//module.exports = SpacesWorld // For NODEJS")
+print("const SpacesWorld = {\nsize:[" + str(w) + "," + str(h) + "],\nspawn:[" + str(spawn)[1:-1]  + "],\narray:[" + longline + "]\n}\n//module.exports = SpacesWorld // For NODEJS")
