@@ -102,6 +102,7 @@ function start() {
     },2000)
     MQTTclient.on("message", function (topic, payload) {
             payload = payload.toString()
+            log(payload)
             if (topic.localeCompare('sensor_data') == 0) { 
                 if(payload.indexOf("%") != -1){ // DHT
                     console.log(payload + "!")
@@ -110,7 +111,7 @@ function start() {
                     if(payload.indexOf("some") != -1){
                         Presencemsg = "PPL HERE"
                     }else{
-                        Presencemsg = "EMPTY"
+                        Presencemsg = "PPL HERE"
                     }
                 }
             }
