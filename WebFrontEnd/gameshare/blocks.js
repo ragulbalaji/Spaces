@@ -79,13 +79,13 @@ function BasicFloor(px, pz) {
     _S.add(this.obj);
     this.obj.rotation.order = "YXZ";
     this.obj.selected = function () {
-        if (!this.material.wireframe) {
+        /*if (!this.material.wireframe) {
             this.collidable = false;
             this.material.wireframe = true;
         } else {
             this.collidable = true;
             this.material.wireframe = false;
-        }
+        }*/
     }
     this.needsUpdate = false;
     this.rayEnabled = true;
@@ -109,13 +109,13 @@ function BasicCeiling(px, pz) {
     _S.add(this.obj);
     this.obj.rotation.order = "YXZ";
     this.obj.selected = function () {
-        if (!this.material.wireframe) {
+        /*if (!this.material.wireframe) {
             this.collidable = false;
             this.material.wireframe = true;
         } else {
             this.collidable = true;
             this.material.wireframe = false;
-        }
+        }*/
     }
     this.needsUpdate = false;
     this.obj.collidable = true;
@@ -134,15 +134,15 @@ function BasicBlock(px, pz) {
     _S.add(this.obj);
     this.obj.rotation.order = "YXZ";
     this.obj.selected = function () {
-        if (!this.material.wireframe) {
+        /*if (!this.material.wireframe) {
             this.collidable = false;
             this.material.wireframe = true;
         } else {
             this.collidable = true;
             this.material.wireframe = false;
-        }
+        }*/
     }
-    this.needsUpdate = true;
+    this.needsUpdate = false;
     this.obj.collidable = true;
     this.rayEnabled = true;
     this.update = function () {
