@@ -21,7 +21,7 @@ import sys
 import serial
 import time
 
-
+shouldSendData = False #determines if the client should begin sending sensor data
 ADDR_OF_ARDUINO = '/dev/ttyACM0'
 BAUD_RATE = 9600
 ADDR_TO_CONN = "192.168.43.86" #connect to Broker
@@ -32,6 +32,7 @@ def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
     if rc == 0:
         pass
+        shouldSendData = True #only after the connection is made should the client start sending sensor data
     else:
         sys.exit("Connection refused.") #Broker refused to connect. Exit with error msg.
 
@@ -46,10 +47,11 @@ client.connect(ADDR_TO_CONN, port=PORT_TO_CONN) #client connects
 
 client.subscribe("sensor") #subscribe to topic "sensor"
 
-
-
-while True:
+while shouldSendData: #do not send sensor data until the connection is made
     data = ser.readline()
     print(data)
     client.publish("sensor_data", payload=data, qos=0, retain=False)
     time.sleep(1)
+
+
+client.loop_forever()
