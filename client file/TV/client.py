@@ -17,7 +17,7 @@ import serial
 
 ADDR_OF_ARDUINO = '/dev/ttyACM0'
 BAUD_RATE = 9600
-ADDR_TO_CONN = "172.20.10.7" #connect to Broker
+ADDR_TO_CONN = "192.168.43.86" #connect to Broker
 PORT_TO_CONN = 1883
 
 # The callback for when the client receives a CONNACK response from the server.
@@ -31,7 +31,9 @@ def on_connect(client, userdata, flags, rc):
 
 # The RasPi forwards messages from the publisher to the Arduino
 def on_message(client, userdata, msg):
+
     instruction = msg.payload
+    print(instruction)
     topic = msg.topic
     if topic == "TV":
         ser.write(instruction)
