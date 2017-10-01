@@ -215,10 +215,17 @@ function ArduinoTV(px, pz) {
     this.obj.rotation.x = -Math.PI / 2;
     _S.add(this.obj);
     this.obj.rotation.order = "YXZ";
-    this.obj.resetColorTime = Number.MAX_SAFE_INTEGER
+    this.obj.resetColorEnabled = false
     this.obj.selected = function () {
-        this.material.color = new THREE.Color( 0xff0000 )
-        this.resetColorTime = Date.now() + 1000
+        if(this.resetColorEnabled){
+            this.material.color = new THREE.Color( 0xffa500 )
+            MQTTclient.publish("TV", "off_tv")
+            this.resetColorEnabled = false
+        }else{
+            this.material.color = new THREE.Color( 0x00ff00 )
+            MQTTclient.publish("TV", "on_tv")
+            this.resetColorEnabled = true
+        }
     }
     //
     this.label = new THREE.Mesh(new THREE.PlaneGeometry(1, 0.7), new THREE.MeshBasicMaterial({
@@ -235,11 +242,7 @@ function ArduinoTV(px, pz) {
     this.obj.collidable = true;
     this.update = function () {
         this.label.rotation.y = _C.rotation.y;
-        this.label.material.map = new THREE.CanvasTexture(makeTextSprite(["TV",px++]))
-        if(this.obj.resetColorTime < Date.now()){
-            this.obj.material.color = new THREE.Color( 0xffa500 )
-            this.obj.resetColorTime = Number.MAX_SAFE_INTEGER
-        }
+        this.label.material.map = new THREE.CanvasTexture(makeTextSprite(["TV",(this.obj.resetColorEnabled ? "ON" : "OFF")]))
     }
 }
 
@@ -269,7 +272,7 @@ function ArduinoDHT(px, pz) {
     this.obj.collidable = true;
     this.update = function () {
         this.label.rotation.y = _C.rotation.y;
-        this.label.material.map = new THREE.CanvasTexture(makeTextSprite(["DHT",px++]))
+        this.label.material.map = new THREE.CanvasTexture(makeTextSprite(["DHT",DHTmsg]))
     }
 }
 
@@ -286,7 +289,7 @@ function ArduinoPresense(px, pz) {
     }
     //
     this.label = new THREE.Mesh(new THREE.PlaneGeometry(1, 0.7), new THREE.MeshBasicMaterial({
-        map: new THREE.CanvasTexture(makeTextSprite(["Presense -"])),
+        map: new THREE.CanvasTexture(makeTextSprite(["Presence -"])),
         side: THREE.DoubleSide
     }));
     this.label.position.set(px, 0, pz);
@@ -299,7 +302,7 @@ function ArduinoPresense(px, pz) {
     this.obj.collidable = true;
     this.update = function () {
         this.label.rotation.y = _C.rotation.y;
-        this.label.material.map = new THREE.CanvasTexture(makeTextSprite(["Presense",px++]))
+        this.label.material.map = new THREE.CanvasTexture(makeTextSprite(["Presence",Presencemsg]))
     }
 }
 
