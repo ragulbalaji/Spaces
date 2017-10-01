@@ -32,7 +32,7 @@ def on_message(client, userdata, msg):
     print("Received")
     topic = str(msg.topic)
     payload = str(msg.payload)
-    if topic == "sensor" and payload == b'read_data': #Code only executes if the payload and topic are valid
+    if topic == "sensor" and payload == b'read_data' or payload == b'read_presence': #Code only executes if the payload and topic are valid
         ser.write(payload)
         time.sleep(0.5) #blind synchronisation of 0.5s
         data = ser.readline()

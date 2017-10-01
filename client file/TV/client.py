@@ -34,7 +34,7 @@ def on_message(client, userdata, msg):
     instruction = msg.payload
     topic = msg.topic
     if topic == "TV":
-        ser.write(instruction.encode())
+        ser.write(instruction)
 
 
 ser = serial.Serial(ADDR_OF_ARDUINO, BAUD_RATE)
