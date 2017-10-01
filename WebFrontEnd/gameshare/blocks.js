@@ -1,10 +1,13 @@
 /*
-	"000000": "", // Null
-	"ffffff": 1, // Wall
-	"ff0000": 2, // Start Point
-	"2c0058": 3, // Generic Floor
-	"0000ff": 4, // Generic Button
-	"ffff00": 5, // Generic Sensor
+	"000000": "", # Null
+    "ffffff": 1,  # Wall
+    "ff0000": 2,  # Start Point
+    "2c0058": 3,  # Generic Floor
+    "0000ff": 4,  # Generic Button
+    "ffff00": 5,  # Generic Sensor
+	"ffff44": "'PS'",  # Presense Sensor
+	"ffffaa": "'DHT'",  # DHT Sensor
+	"0000af": "'TV'",  # TV DEVICE
 */
 
 function makeBlock(id, px, pz) {
@@ -17,6 +20,18 @@ function makeBlock(id, px, pz) {
             break;
         case 4: // Generic Button
             addGameObject(new BasicButton(px, pz))
+            addGameObject(new BasicCeiling(px, pz))
+            break;
+        case 'TV':
+            addGameObject(new ArduinoTV(px, pz))
+            addGameObject(new BasicCeiling(px, pz))
+            break;
+        case 'DHT':
+            addGameObject(new ArduinoDHT(px, pz))
+            addGameObject(new BasicCeiling(px, pz))
+            break;
+        case 'PS':
+            addGameObject(new ArduinoPresense(px, pz))
             addGameObject(new BasicCeiling(px, pz))
             break;
     }
@@ -169,14 +184,125 @@ function BasicButton(px, pz) {
         this.material.color = new THREE.Color( 0xff0000 )
         this.resetColorTime = Date.now() + 1000
     }
+    //
+    this.label = new THREE.Mesh(new THREE.PlaneGeometry(1, 0.5), new THREE.MeshBasicMaterial({
+        map: new THREE.CanvasTexture(makeTextSprite(["TEST"+px])),
+        side: THREE.DoubleSide
+    }));
+    this.label.position.set(px, 0, pz);
+    this.label.rotation.y = Math.random();
+    _S.add(this.label);
+    this.label.rotation.order = "YXZ";
+    //
     this.needsUpdate = true;
     this.rayEnabled = true;
     this.obj.collidable = true;
     this.update = function () {
+        this.label.rotation.y = _C.rotation.y;
+        this.label.material.map = new THREE.CanvasTexture(makeTextSprite(["TEST"+px++]))
         if(this.obj.resetColorTime < Date.now()){
             this.obj.material.color = new THREE.Color( 0xffa500 )
             this.obj.resetColorTime = Number.MAX_SAFE_INTEGER
         }
+    }
+}
+
+function ArduinoTV(px, pz) {
+    this.obj = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({
+        color: '#ffa500'
+    }));
+    this.obj.position.set(px, -0.5, pz);
+    this.obj.rotation.x = -Math.PI / 2;
+    _S.add(this.obj);
+    this.obj.rotation.order = "YXZ";
+    this.obj.resetColorEnabled = false
+    this.obj.selected = function () {
+        if(this.resetColorEnabled){
+            this.material.color = new THREE.Color( 0xffa500 )
+            MQTTclient.publish("TV", "off_tv")
+            this.resetColorEnabled = false
+        }else{
+            this.material.color = new THREE.Color( 0x00ff00 )
+            MQTTclient.publish("TV", "on_tv")
+            this.resetColorEnabled = true
+        }
+    }
+    //
+    this.label = new THREE.Mesh(new THREE.PlaneGeometry(1, 0.7), new THREE.MeshBasicMaterial({
+        map: new THREE.CanvasTexture(makeTextSprite(["TV -"])),
+        side: THREE.DoubleSide
+    }));
+    this.label.position.set(px, 0, pz);
+    this.label.rotation.y = Math.random();
+    _S.add(this.label);
+    this.label.rotation.order = "YXZ";
+    //
+    this.needsUpdate = true;
+    this.rayEnabled = true;
+    this.obj.collidable = true;
+    this.update = function () {
+        this.label.rotation.y = _C.rotation.y;
+        this.label.material.map = new THREE.CanvasTexture(makeTextSprite(["TV",(this.obj.resetColorEnabled ? "ON" : "OFF")]))
+    }
+}
+
+function ArduinoDHT(px, pz) {
+    this.obj = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({
+        color: '#4CAF50'
+    }));
+    this.obj.position.set(px, -0.5, pz);
+    this.obj.rotation.x = -Math.PI / 2;
+    _S.add(this.obj);
+    this.obj.rotation.order = "YXZ";
+    this.obj.selected = function () {
+        
+    }
+    //
+    this.label = new THREE.Mesh(new THREE.PlaneGeometry(1, 0.7), new THREE.MeshBasicMaterial({
+        map: new THREE.CanvasTexture(makeTextSprite(["DHT -"])),
+        side: THREE.DoubleSide
+    }));
+    this.label.position.set(px, 0, pz);
+    this.label.rotation.y = Math.random();
+    _S.add(this.label);
+    this.label.rotation.order = "YXZ";
+    //
+    this.needsUpdate = true;
+    this.rayEnabled = true;
+    this.obj.collidable = true;
+    this.update = function () {
+        this.label.rotation.y = _C.rotation.y;
+        this.label.material.map = new THREE.CanvasTexture(makeTextSprite(["DHT",DHTmsg]))
+    }
+}
+
+function ArduinoPresense(px, pz) {
+    this.obj = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({
+        color: '#4CAF50'
+    }));
+    this.obj.position.set(px, -0.5, pz);
+    this.obj.rotation.x = -Math.PI / 2;
+    _S.add(this.obj);
+    this.obj.rotation.order = "YXZ";
+    this.obj.selected = function () {
+        
+    }
+    //
+    this.label = new THREE.Mesh(new THREE.PlaneGeometry(1, 0.7), new THREE.MeshBasicMaterial({
+        map: new THREE.CanvasTexture(makeTextSprite(["Presence -"])),
+        side: THREE.DoubleSide
+    }));
+    this.label.position.set(px, 0, pz);
+    this.label.rotation.y = Math.random();
+    _S.add(this.label);
+    this.label.rotation.order = "YXZ";
+    //
+    this.needsUpdate = true;
+    this.rayEnabled = true;
+    this.obj.collidable = true;
+    this.update = function () {
+        this.label.rotation.y = _C.rotation.y;
+        this.label.material.map = new THREE.CanvasTexture(makeTextSprite(["Presence",Presencemsg]))
     }
 }
 
@@ -251,4 +377,23 @@ function SimpleEntity(px, pz) {
     this.update = function () {
         this.obj.rotation.y += (Math.random() / 10) * DELTA;
     }
+}
+
+function makeTextSprite(msg){
+    canvas = document.createElement('canvas')
+    canvas.width = 256
+    canvas.health = 128
+    ctx = canvas.getContext('2d');
+    ctx.font = '30pt Jura';
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
+    ctx.fillStyle = 'black';
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    for(var i in msg){
+        ctx.fillText(msg[i].toString(), canvas.width / 2, canvas.height * (i/(msg.length+2))+30);
+    }
+    return canvas
 }
