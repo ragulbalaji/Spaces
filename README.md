@@ -21,7 +21,7 @@ python
 three.js
 webGL
 node.js
-javascript
+javascript 
 mqtt
 debian
 mac osX
