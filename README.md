@@ -6,7 +6,7 @@ Think of what MINECRAFT amalgamated with IOT would be, that is what this might b
 ![](DevPoststuff/Ingame.gif)
 
 ## See More
-[LINK TO DEVPOST PROJECT](https://devpost.com/software/spaces-zv4bf0)
+[LINK TO DEVPOST PROJECT](https://devpost.com/software/spaces-zv4bf0) 
 
 ## Inspiration
 Automation right now stops at clunky mobile apps and cryptic interfaces. This doesn't have to be the case. What if you could have your home, office, or even factory, modelled and presented to you in 3D? What if you could control your electrical appliances and even monitor sensor readings in this virtual space, just as if you were really there in real life? And thus, Spaces, probably the smartest automation interface ever, was born.
